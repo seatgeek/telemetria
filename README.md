@@ -1,4 +1,4 @@
-# telemetira
+# telemetria
 
 This package aims to make is simple to connect and send metrics to influxdb, either by using the
 http or udp protocol.

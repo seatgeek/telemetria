@@ -81,7 +81,11 @@ func newUDPClient(address *url.URL) (Recorder, error) {
 			fmt.Errorf("Could not create a UDP recorder:\n %s", err.Error())
 	}
 
-	return SimpleRecorder{Client: &influxClient, Precision: "ns"}, nil
+	return SimpleRecorder{
+		Client: &influxClient,
+		Database:  strings.Replace(address.Path, "/", "", 1),
+		Precision: "ns",
+	}, nil
 }
 
 func newHTTPClient(address *url.URL) (Recorder, error) {

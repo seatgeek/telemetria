@@ -11,7 +11,7 @@ type statsdContextKey string
 const statsdClient = statsdContextKey("statsd.client")
 
 // Set the statsd client to the context
-func SetClient(ctx context.Context, client *statsd.Client) context.Context {
+func SetClient(ctx context.Context, client statsd.ClientInterface) context.Context {
 	return context.WithValue(ctx, statsdClient, client)
 }
 
@@ -21,7 +21,7 @@ func New(ctx context.Context, namespace string, options ...statsd.Option) contex
 }
 
 // Create new statsd client and return it
-func CreateClient(namespace string, options ...statsd.Option) *statsd.Client {
+func CreateClient(namespace string, options ...statsd.Option) statsd.ClientInterface {
 	options = append(options, statsd.WithNamespace(namespace))
 
 	client, err := statsd.New("", options...)

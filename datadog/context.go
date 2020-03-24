@@ -17,6 +17,11 @@ func SetClient(ctx context.Context, client *statsd.Client) context.Context {
 
 // Create new statsd client and assign to context
 func New(ctx context.Context, namespace string, options ...statsd.Option) context.Context {
+	return SetClient(ctx, CreateClient(ctx, namespace, options...))
+}
+
+// Create new statsd client and return it
+func CreateClient(ctx context.Context, namespace string, options ...statsd.Option) *statsd.Client {
 	options = append(options, statsd.WithNamespace(namespace))
 
 	client, err := statsd.New("", options...)
@@ -24,9 +29,10 @@ func New(ctx context.Context, namespace string, options ...statsd.Option) contex
 		panic(err)
 	}
 
-	return SetClient(ctx, client)
+	return client
 }
 
+// Extract client from context
 func ClientFromContext(ctx context.Context) *statsd.Client {
 	value := ctx.Value(statsdClient)
 	if value == nil {

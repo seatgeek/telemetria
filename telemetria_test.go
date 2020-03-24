@@ -19,7 +19,7 @@ func failCompilationIfNotRecorder(r Recorder) {
 }
 
 func createClient() influxdb.Client {
-	client, err := influxdb.New(influxdb.HTTPConfig{
+	client, err := influxdb.NewHTTPClient(influxdb.HTTPConfig{
 		Addr: "http://localhost:8086",
 	})
 

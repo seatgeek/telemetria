@@ -17,11 +17,11 @@ func SetClient(ctx context.Context, client *statsd.Client) context.Context {
 
 // Create new statsd client and assign to context
 func New(ctx context.Context, namespace string, options ...statsd.Option) context.Context {
-	return SetClient(ctx, CreateClient(ctx, namespace, options...))
+	return SetClient(ctx, CreateClient(namespace, options...))
 }
 
 // Create new statsd client and return it
-func CreateClient(ctx context.Context, namespace string, options ...statsd.Option) *statsd.Client {
+func CreateClient(namespace string, options ...statsd.Option) *statsd.Client {
 	options = append(options, statsd.WithNamespace(namespace))
 
 	client, err := statsd.New("", options...)

@@ -2,10 +2,12 @@ package telemetria
 
 import (
 	"fmt"
-	influxdb "github.com/influxdata/influxdb1-client/v2"
 	"net/url"
 	"strings"
 	"time"
+
+	_ "github.com/influxdata/influxdb1-client" // this is important because of the bug in go mod
+	influxdb "github.com/influxdata/influxdb1-client/v2"
 )
 
 // Recorder represents the a telegraf or influx db client that is
@@ -82,7 +84,7 @@ func newUDPClient(address *url.URL) (Recorder, error) {
 	}
 
 	return SimpleRecorder{
-		Client: &influxClient,
+		Client:    &influxClient,
 		Database:  strings.Replace(address.Path, "/", "", 1),
 		Precision: "ns",
 	}, nil

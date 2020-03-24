@@ -1,9 +1,11 @@
 package telemetria
 
 import (
-	influxdb "github.com/influxdata/influxdb/client/v2"
 	"reflect"
 	"testing"
+
+	_ "github.com/influxdata/influxdb1-client" // this is important because of the bug in go mod
+	influxdb "github.com/influxdata/influxdb1-client/v2"
 )
 
 var client = createClient()
@@ -17,7 +19,7 @@ func failCompilationIfNotRecorder(r Recorder) {
 }
 
 func createClient() influxdb.Client {
-	client, err := influxdb.NewHTTPClient(influxdb.HTTPConfig{
+	client, err := influxdb.New(influxdb.HTTPConfig{
 		Addr: "http://localhost:8086",
 	})
 
